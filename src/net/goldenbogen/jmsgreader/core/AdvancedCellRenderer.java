@@ -147,7 +147,7 @@ public class AdvancedCellRenderer extends DefaultListCellRenderer {
 					}
 					String files = stringBuffer.toString();
 					files = files.substring(0, files.lastIndexOf("-") - 2); //$NON-NLS-1$
-					JLabel lblAttachments = new JLabel("<html>"+Messages.getString("JMsgReader.lblAttachments")+"<font color=blue>" + files + "</font><html>"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+					JLabel lblAttachments = new JLabel("<html>"+Messages.getString("JMsgReader.lblAttachments")+": <font color=blue>" + files + "</font><html>"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 					lblAttachments.setFont(new Font("Tahoma", Font.PLAIN, 14)); //$NON-NLS-1$
 					mypanel.add(lblAttachments);
 				}

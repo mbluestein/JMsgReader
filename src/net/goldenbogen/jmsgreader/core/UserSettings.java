@@ -20,6 +20,7 @@ public class UserSettings {
 	private static Preferences	prefs	= Preferences.userRoot().node(JMsgReader.class.getName().toLowerCase().substring(0, JMsgReader.class.getName().toLowerCase().lastIndexOf(".")).replace(".", "/"));
 
 	private static boolean		manualSearch;
+	private static boolean		enableCaching;
 
 	/**
 	 * @author Goldenbogen, Pierre
@@ -52,6 +53,38 @@ public class UserSettings {
 		}
 		prefs.putInt(new String("ManualSearch").toLowerCase(), tmp);
 		manualSearch = ManualSearch;
+	}
+
+	/**
+	 * @author Goldenbogen, Pierre
+	 * Created: 21.12.2011 16:38:51
+	 *
+	 * @return the enableCaching
+	 */
+	public static boolean isEnableCaching() {
+		int tmp = 0;
+		tmp = prefs.getInt(new String("EnableCaching").toLowerCase(), tmp);
+		if (tmp == 1) {
+			enableCaching = true;
+		} else {
+			enableCaching = false;
+		}
+		return enableCaching;
+	}
+
+	/**
+	 * @author Goldenbogen, Pierre
+	 * Created: 21.12.2011 16:38:51
+	 *
+	 * @param enableCaching the enableCaching to set
+	 */
+	public static void setEnableCaching(boolean EnableCaching) {
+		int tmp = 0;
+		if (EnableCaching) {
+			tmp = 1;
+		}
+		prefs.putInt(new String("enableCaching").toLowerCase(), tmp);
+		enableCaching = EnableCaching;
 	}
 
 }

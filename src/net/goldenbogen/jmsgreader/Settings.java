@@ -69,7 +69,7 @@ public class Settings extends JDialog {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Settings.class.getResource("/net/goldenbogen/jmsgreader/setting_tools.png"))); //$NON-NLS-1$
 		setModal(true);
 		setTitle(Messages.getString("JMsgReader.AppName") + " - " + Messages.getString("JMsgReader.lblSettings")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		setBounds(100, 100, 490, 139);
+		setBounds(100, 100, 490, 167);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -90,36 +90,44 @@ public class Settings extends JDialog {
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 11)); //$NON-NLS-1$
 		lblNewLabel.setForeground(new Color(51, 153, 255));
 		contentPanel.add(lblNewLabel);
-		{
-			JPanel buttonPane = new JPanel();
-			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
-			getContentPane().add(buttonPane, BorderLayout.SOUTH);
-			{
-				JButton okButton = new JButton(Messages.getString("Settings.btnOk")); //$NON-NLS-1$
-				okButton.setIcon(new ImageIcon(Settings.class.getResource("/net/goldenbogen/jmsgreader/accept.png"))); //$NON-NLS-1$
-				okButton.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						UserSettings.setManualSearch(chckbxSucheErstMit.isSelected());
-						dispose();
-					}
-				});
-				okButton.setMnemonic('O');
-				okButton.setActionCommand("OK"); //$NON-NLS-1$
-				buttonPane.add(okButton);
-				getRootPane().setDefaultButton(okButton);
+
+		final JCheckBox chckbxEnableCaching = new JCheckBox(Messages.getString("Settings.lblEnableCaching")); //$NON-NLS-1$
+		sl_contentPanel.putConstraint(SpringLayout.NORTH, chckbxEnableCaching, 6, SpringLayout.SOUTH, lblNewLabel);
+		sl_contentPanel.putConstraint(SpringLayout.WEST, chckbxEnableCaching, 0, SpringLayout.WEST, chckbxSucheErstMit);
+		sl_contentPanel.putConstraint(SpringLayout.EAST, chckbxEnableCaching, 0, SpringLayout.EAST, chckbxSucheErstMit);
+		chckbxEnableCaching.setSelected(UserSettings.isEnableCaching());
+		chckbxEnableCaching.setMnemonic('S');
+		contentPanel.add(chckbxEnableCaching);
+
+		JPanel buttonPane = new JPanel();
+		buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		getContentPane().add(buttonPane, BorderLayout.SOUTH);
+
+		JButton okButton = new JButton(Messages.getString("Settings.btnOk")); //$NON-NLS-1$
+		okButton.setIcon(new ImageIcon(Settings.class.getResource("/net/goldenbogen/jmsgreader/accept.png"))); //$NON-NLS-1$
+		okButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				UserSettings.setManualSearch(chckbxSucheErstMit.isSelected());
+				UserSettings.setEnableCaching(chckbxEnableCaching.isSelected());
+				dispose();
 			}
-			{
-				JButton cancelButton = new JButton(Messages.getString("Settings.btnCancel")); //$NON-NLS-1$
-				cancelButton.setIcon(new ImageIcon(Settings.class.getResource("/net/goldenbogen/jmsgreader/cancel.png"))); //$NON-NLS-1$
-				cancelButton.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						dispose();
-					}
-				});
-				cancelButton.setMnemonic('b');
-				cancelButton.setActionCommand("Cancel"); //$NON-NLS-1$
-				buttonPane.add(cancelButton);
+		});
+		
+		okButton.setMnemonic('O');
+		okButton.setActionCommand("OK"); //$NON-NLS-1$
+		buttonPane.add(okButton);
+		getRootPane().setDefaultButton(okButton);
+		JButton cancelButton = new JButton(Messages.getString("Settings.btnCancel")); //$NON-NLS-1$
+		cancelButton.setIcon(new ImageIcon(Settings.class.getResource("/net/goldenbogen/jmsgreader/cancel.png"))); //$NON-NLS-1$
+		cancelButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
 			}
-		}
+		});
+		
+		cancelButton.setMnemonic('b');
+		cancelButton.setActionCommand("Cancel"); //$NON-NLS-1$
+		buttonPane.add(cancelButton);
+
 	}
 }
