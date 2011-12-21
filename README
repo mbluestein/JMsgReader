@@ -1,0 +1,41 @@
+###############################################################################
+#
+#  SHORT DESCRIPTION
+
+This small piece of software loads all .msg files inside a path into memory and 
+makes their content searchable.
+
+###############################################################################
+#
+#  USAGE
+
+To use the program, a path where .msg files are stored must be passed as a 
+parameter.
+
+This could be as follows:
+>> C:\JMsgReader\JMsgReader.jar D:\test\
+
+-------------------------------------------------------------------------------
+
+Windows only!!!!11eleven (at least for now)
+For more comfort, you can assign a file extension to the application.
+
+This could be done as follows:
+>> C:\JMsgReader\JMsgReader.jar -setassoc MyFileAssociation
+
+This command will now create an entry in the registry, which ensures that after 
+clicking on a file with the given extension, the application is started 
+automatically.
+Now you can create a file like "Search_For_E_Mails.MyFileAssociation" and after 
+clicking the application will show up and begin reading all the .msg files.
+
+###############################################################################
+#
+#  DEVELOPMENT ENVIRONMENT
+
+You need the following libraries to get this thing up and running.
+
+- Apache POI - the Java API for Microsoft Documents
+    http://poi.apache.org/
+- Apache IO 
+    is packed. (bad practice, i know ...)
