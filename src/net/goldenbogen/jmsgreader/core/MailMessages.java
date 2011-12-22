@@ -94,6 +94,7 @@ public class MailMessages {
 			String[] extensions = { "msg" };
 			statusText.setText(Messages.getString("MailMessages.GettingFiles")); //$NON-NLS-1$
 			Collection<File> files = FileUtils.listFiles(root, extensions, recursive);
+			statusBar.setValue(0);
 			statusBar.setMaximum(files.size());
 			for (Iterator<File> iterator = files.iterator(); iterator.hasNext();) {
 				statusBar.setValue(statusBar.getValue() + 1);
