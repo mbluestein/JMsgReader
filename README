@@ -37,5 +37,5 @@ You need the following libraries to get this thing up and running.
 
 - Apache POI - the Java API for Microsoft Documents
     http://poi.apache.org/
-- Apache IO 
-    is packed. (bad practice, i know ...)
+- Apache IO - Commons IO is a library of utilities to assist with developing IO functionality.
+    http://commons.apache.org/io/
