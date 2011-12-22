@@ -91,7 +91,7 @@ public class MailMessages {
 		File root = new File(getSearchFolder());
 		try {
 			boolean recursive = true;
-			String[] extensions = null;
+			String[] extensions = { "msg" };
 			statusText.setText(Messages.getString("MailMessages.GettingFiles")); //$NON-NLS-1$
 			Collection<File> files = FileUtils.listFiles(root, extensions, recursive);
 			statusBar.setMaximum(files.size());
@@ -99,104 +99,101 @@ public class MailMessages {
 				statusBar.setValue(statusBar.getValue() + 1);
 				File file = iterator.next();
 
-				if (file.getName().toLowerCase().endsWith(".msg")) { //$NON-NLS-1$
+				String fileName = file.getAbsolutePath().substring(file.getAbsolutePath().lastIndexOf("\\") + 1, file.getAbsolutePath().lastIndexOf(".")) + ".cache"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
-					String fileName = file.getAbsolutePath().substring(file.getAbsolutePath().lastIndexOf("\\") + 1, file.getAbsolutePath().lastIndexOf(".")) + ".cache"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				File cacheFile = new File(getSearchFolder() + "\\" + getCacheFolderPath() + "\\" + fileName); //$NON-NLS-1$ //$NON-NLS-2$
+				if (cacheFile.exists() && cacheFile.lastModified() > cal.getTimeInMillis()) {
+					statusText.setText(Messages.getString("MailMessages.DataFromCache") + cacheFile.getName()); //$NON-NLS-1$
+					FileInputStream fis = null;
+					ObjectInputStream in = null;
+					fis = new FileInputStream(cacheFile);
+					in = new ObjectInputStream(fis);
+					Message cachedMessage = null;
+					cachedMessage = (Message) in.readObject();
+					Mails.add(cachedMessage);
+					in.close();
+				} else {
 
-					File cacheFile = new File(getSearchFolder() + "\\" + getCacheFolderPath() + "\\" + fileName); //$NON-NLS-1$ //$NON-NLS-2$
-					if (cacheFile.exists() && cacheFile.lastModified() > cal.getTimeInMillis()) {
-						statusText.setText(Messages.getString("MailMessages.DataFromCache") + cacheFile.getName()); //$NON-NLS-1$
-						FileInputStream fis = null;
-						ObjectInputStream in = null;
-						fis = new FileInputStream(cacheFile);
-						in = new ObjectInputStream(fis);
-						Message cachedMessage = null;
-						cachedMessage = (Message) in.readObject();
-						Mails.add(cachedMessage);
-						in.close();
-					} else {
+					statusText.setText(Messages.getString("MailMessages.DataFromMsgFiles") + file.getName()); //$NON-NLS-1$
 
-						statusText.setText(Messages.getString("MailMessages.DataFromMsgFiles") + file.getName()); //$NON-NLS-1$
+					MAPIMessage msg = new MAPIMessage(file.getAbsolutePath());
 
-						MAPIMessage msg = new MAPIMessage(file.getAbsolutePath());
-
-						// Get Date
-						Date date = new Date(file.lastModified());
-						try {
-							date = msg.getMessageDate().getTime();
-						} catch (Exception e) {
-							System.err.println("Error: " + file.getName() + " no messageDATE-CHUNK"); //$NON-NLS-1$ //$NON-NLS-2$
-						}
-
-						// Get To
-						String displayTO = ""; //$NON-NLS-1$
-						try {
-							displayTO = msg.getDisplayTo();
-						} catch (Exception e) {
-							System.err.println("Error: " + file.getName() + " no messageTO-CHUNK"); //$NON-NLS-1$ //$NON-NLS-2$
-						}
-
-						// Get From
-						String displayFROM = ""; //$NON-NLS-1$
-						try {
-							displayFROM = msg.getDisplayFrom();
-						} catch (Exception e) {
-							System.err.println("Error: " + file.getName() + " no messageFROM-CHUNK"); //$NON-NLS-1$ //$NON-NLS-2$
-						}
-
-						// Get CC
-						String displayCC = ""; //$NON-NLS-1$
-						try {
-							displayCC = msg.getDisplayCC();
-						} catch (Exception e) {
-							System.err.println("Error: " + file.getName() + " no messageCC-CHUNK"); //$NON-NLS-1$ //$NON-NLS-2$
-						}
-
-						// Get BCC
-						String displayBCC = ""; //$NON-NLS-1$
-						try {
-							displayBCC = msg.getDisplayBCC();
-						} catch (Exception e) {
-							System.err.println("Error: " + file.getName() + " no messageBCC-CHUNK"); //$NON-NLS-1$ //$NON-NLS-2$
-						}
-
-						// Get Subject
-						String displaySUBJECT = ""; //$NON-NLS-1$
-						try {
-							displaySUBJECT = msg.getSubject();
-						} catch (Exception e) {
-							System.err.println("Error: " + file.getName() + " no messageSUBJECT-CHUNK"); //$NON-NLS-1$ //$NON-NLS-2$
-						}
-
-						// Get TextBody
-						String textBODY = ""; //$NON-NLS-1$
-						try {
-							textBODY = msg.getTextBody();
-						} catch (Exception e) {
-							textBODY = Messages.getString("MailMessages.AlternativeMsgText"); //$NON-NLS-1$
-							System.err.println("Error: " + file.getName() + " no messageTEXTBODY-CHUNK"); //$NON-NLS-1$ //$NON-NLS-2$
-						}
-
-						// Get Attachments
-						AttachmentChunks[] attachments;
-						ArrayList<String> attachmentFiles = new ArrayList<String>();
-						try {
-							attachments = msg.getAttachmentFiles();
-							if (attachments.length > 0) {
-								for (AttachmentChunks attachment : attachments) {
-									attachmentFiles.add(attachment.attachLongFileName.toString());
-								}
-							}
-						} catch (Exception e) {
-							System.err.println("Error: " + file.getName() + " no messageATTACHMENTS-CHUNK"); //$NON-NLS-1$ //$NON-NLS-2$
-						}
-
-						Message myMessage = new Message(file.getAbsolutePath(), date, displayTO, displayFROM, displayCC, displayBCC, displaySUBJECT, textBODY, attachmentFiles);
-
-						cacheMessages.add(myMessage);
-						Mails.add(myMessage);
-
+					// Get Date
+					Date date = new Date(file.lastModified());
+					try {
+						date = msg.getMessageDate().getTime();
+					} catch (Exception e) {
+						System.err.println("Error: " + file.getName() + " no messageDATE-CHUNK"); //$NON-NLS-1$ //$NON-NLS-2$
 					}
+
+					// Get To
+					String displayTO = ""; //$NON-NLS-1$
+					try {
+						displayTO = msg.getDisplayTo();
+					} catch (Exception e) {
+						System.err.println("Error: " + file.getName() + " no messageTO-CHUNK"); //$NON-NLS-1$ //$NON-NLS-2$
+					}
+
+					// Get From
+					String displayFROM = ""; //$NON-NLS-1$
+					try {
+						displayFROM = msg.getDisplayFrom();
+					} catch (Exception e) {
+						System.err.println("Error: " + file.getName() + " no messageFROM-CHUNK"); //$NON-NLS-1$ //$NON-NLS-2$
+					}
+
+					// Get CC
+					String displayCC = ""; //$NON-NLS-1$
+					try {
+						displayCC = msg.getDisplayCC();
+					} catch (Exception e) {
+						System.err.println("Error: " + file.getName() + " no messageCC-CHUNK"); //$NON-NLS-1$ //$NON-NLS-2$
+					}
+
+					// Get BCC
+					String displayBCC = ""; //$NON-NLS-1$
+					try {
+						displayBCC = msg.getDisplayBCC();
+					} catch (Exception e) {
+						System.err.println("Error: " + file.getName() + " no messageBCC-CHUNK"); //$NON-NLS-1$ //$NON-NLS-2$
+					}
+
+					// Get Subject
+					String displaySUBJECT = ""; //$NON-NLS-1$
+					try {
+						displaySUBJECT = msg.getSubject();
+					} catch (Exception e) {
+						System.err.println("Error: " + file.getName() + " no messageSUBJECT-CHUNK"); //$NON-NLS-1$ //$NON-NLS-2$
+					}
+
+					// Get TextBody
+					String textBODY = ""; //$NON-NLS-1$
+					try {
+						textBODY = msg.getTextBody();
+					} catch (Exception e) {
+						textBODY = Messages.getString("MailMessages.AlternativeMsgText"); //$NON-NLS-1$
+						System.err.println("Error: " + file.getName() + " no messageTEXTBODY-CHUNK"); //$NON-NLS-1$ //$NON-NLS-2$
+					}
+
+					// Get Attachments
+					AttachmentChunks[] attachments;
+					ArrayList<String> attachmentFiles = new ArrayList<String>();
+					try {
+						attachments = msg.getAttachmentFiles();
+						if (attachments.length > 0) {
+							for (AttachmentChunks attachment : attachments) {
+								attachmentFiles.add(attachment.attachLongFileName.toString());
+							}
+						}
+					} catch (Exception e) {
+						System.err.println("Error: " + file.getName() + " no messageATTACHMENTS-CHUNK"); //$NON-NLS-1$ //$NON-NLS-2$
+					}
+
+					Message myMessage = new Message(file.getAbsolutePath(), date, displayTO, displayFROM, displayCC, displayBCC, displaySUBJECT, textBODY, attachmentFiles);
+
+					cacheMessages.add(myMessage);
+					Mails.add(myMessage);
+
 				}
 			}
 			initResults();
