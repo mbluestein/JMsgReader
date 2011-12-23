@@ -14,7 +14,6 @@ import java.util.Vector;
 
 import net.goldenbogen.jmsgreader.core.MailMessages.SearchType;
 
-
 /**
  * @author Goldenbogen, Pierre
  *         Created: 01.12.2011 09:23:47
@@ -86,9 +85,9 @@ public class Message implements Serializable {
 					places.add(lastIndex);
 				}
 			}
-			String output = "";
-			String htmlfront = "<font bgcolor=yellow color=black>";
-			String htmlback = "</font>";
+			String output = ""; //$NON-NLS-1$
+			String htmlfront = "<font bgcolor=yellow color=black>"; //$NON-NLS-1$
+			String htmlback = "</font>"; //$NON-NLS-1$
 			Collections.reverse(places);
 			for (int iRunner = 0; iRunner < places.size(); iRunner++) {
 				output = Text.substring(0, places.get(iRunner));
@@ -359,7 +358,7 @@ public class Message implements Serializable {
 	 * @param colorizedContent
 	 */
 	private void setColorizedContent(String colorizedContent) {
-		ColorizedContent = "<html><head></head><body font face=\"Tahoma\">" + colorizedContent.replaceAll("(\r\n|\r|\n|\n\r)", "<br>") + "</body></html>";
+		ColorizedContent = "<html><head></head><body font face=\"Tahoma\">" + colorizedContent.replaceAll("(\r\n|\r|\n|\n\r)", "<br>") + "</body></html>"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 	}
 
 	/**

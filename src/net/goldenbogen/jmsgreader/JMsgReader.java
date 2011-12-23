@@ -57,7 +57,6 @@ import net.goldenbogen.jmsgreader.core.MailMessages;
 import net.goldenbogen.jmsgreader.core.Message;
 import net.goldenbogen.jmsgreader.core.UserSettings;
 
-
 /**
  * @author Goldenbogen, Pierre
  *         Created: 20.06.2011 10:11:17
@@ -68,7 +67,7 @@ public class JMsgReader {
 	private static JComboBox	comboBox;
 	private static JList		list;
 	private static MailMessages	Mails;
-	private static String		path			= "";		 //$NON-NLS-1$
+	private static String		path			= "";		//$NON-NLS-1$
 	private static boolean		showAttachments	= false;
 	private static boolean		showCC_BCC		= false;
 
@@ -97,13 +96,13 @@ public class JMsgReader {
 		}
 		if (args.length > 0) {
 			path = args[0];
-			if (path.toLowerCase().equals("--setassoc")) {  //$NON-NLS-1$
+			if (path.toLowerCase().equals("--setassoc")) { //$NON-NLS-1$
 				if (args.length >= 1) {
-					FileAssociation.setFileAssociation("." + args[1]);  //$NON-NLS-1$
+					FileAssociation.setFileAssociation("." + args[1]); //$NON-NLS-1$
 					System.exit(0);
 				}
 			}
-			path = path.substring(0, path.lastIndexOf("\\"));  //$NON-NLS-1$
+			path = path.substring(0, path.lastIndexOf("\\")); //$NON-NLS-1$
 		}
 
 		EventQueue.invokeLater(new Runnable() {
@@ -170,9 +169,9 @@ public class JMsgReader {
 			@Override
 			protected Boolean doInBackground() {
 				Boolean bOk = true;
-				loadingDialog = new JDialog(frmMsgCrawler, Messages.getString("JMsgReader.Loading"));  //$NON-NLS-1$
+				loadingDialog = new JDialog(frmMsgCrawler, Messages.getString("JMsgReader.Loading")); //$NON-NLS-1$
 				final JLabel label = new JLabel();
-				label.setIcon(new ImageIcon(JMsgReader.class.getResource("/net/goldenbogen/jmsgreader/generator.gif")));  //$NON-NLS-1$
+				label.setIcon(new ImageIcon(JMsgReader.class.getResource("/net/goldenbogen/jmsgreader/generator.gif"))); //$NON-NLS-1$
 				final JPanel contentPane = new JPanel();
 				contentPane.setBorder(BorderFactory.createEmptyBorder(25, 25, 25, 25));
 				contentPane.setLayout(new BorderLayout());
@@ -184,7 +183,7 @@ public class JMsgReader {
 				if (!path.isEmpty()) {
 					setType(MailMessages.SearchType.SUBJECT);
 					Mails = new MailMessages(path.toString(), progressBar, lblWork);
-					RefreshView("");  //$NON-NLS-1$
+					RefreshView(""); //$NON-NLS-1$
 				}
 				lblWork.setVisible(false);
 				progressBar.setVisible(false);
@@ -219,8 +218,8 @@ public class JMsgReader {
 	 */
 	private void initialize() {
 		frmMsgCrawler = new JFrame();
-		frmMsgCrawler.setIconImage(Toolkit.getDefaultToolkit().getImage(JMsgReader.class.getResource("/net/goldenbogen/jmsgreader/mail-receive.png")));  //$NON-NLS-1$
-		frmMsgCrawler.setTitle(Messages.getString("JMsgReader.AppName"));  //$NON-NLS-1$
+		frmMsgCrawler.setIconImage(Toolkit.getDefaultToolkit().getImage(JMsgReader.class.getResource("/net/goldenbogen/jmsgreader/mail-receive.png"))); //$NON-NLS-1$
+		frmMsgCrawler.setTitle(Messages.getString("JMsgReader.AppName")); //$NON-NLS-1$
 		frmMsgCrawler.setBounds(100, 100, 754, 550);
 		frmMsgCrawler.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		springLayout = new SpringLayout();
@@ -228,7 +227,7 @@ public class JMsgReader {
 
 		textField = new JTextField();
 		springLayout.putConstraint(SpringLayout.WEST, textField, 10, SpringLayout.WEST, frmMsgCrawler.getContentPane());
-		textField.setFont(new Font("Tahoma", Font.BOLD, 11));  //$NON-NLS-1$
+		textField.setFont(new Font("Tahoma", Font.BOLD, 11)); //$NON-NLS-1$
 		textField.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent arg0) {
@@ -244,8 +243,8 @@ public class JMsgReader {
 		frmMsgCrawler.getContentPane().add(textField);
 		textField.setColumns(10);
 
-		JLabel lblSuchtext = new JLabel(Messages.getString("JMsgReader.lblSearchText"));  //$NON-NLS-1$
-		lblSuchtext.setFont(new Font("Tahoma", Font.BOLD, 11));  //$NON-NLS-1$
+		JLabel lblSuchtext = new JLabel(Messages.getString("JMsgReader.lblSearchText")); //$NON-NLS-1$
+		lblSuchtext.setFont(new Font("Tahoma", Font.BOLD, 11)); //$NON-NLS-1$
 		springLayout.putConstraint(SpringLayout.NORTH, textField, 6, SpringLayout.SOUTH, lblSuchtext);
 		springLayout.putConstraint(SpringLayout.SOUTH, textField, 34, SpringLayout.SOUTH, lblSuchtext);
 		springLayout.putConstraint(SpringLayout.NORTH, lblSuchtext, 10, SpringLayout.NORTH, frmMsgCrawler.getContentPane());
@@ -257,60 +256,60 @@ public class JMsgReader {
 		comboBox = new JComboBox();
 		springLayout.putConstraint(SpringLayout.WEST, comboBox, 6, SpringLayout.EAST, textField);
 		springLayout.putConstraint(SpringLayout.EAST, comboBox, -10, SpringLayout.EAST, frmMsgCrawler.getContentPane());
-		comboBox.setFont(new Font("Tahoma", Font.BOLD, 11));  //$NON-NLS-1$
+		comboBox.setFont(new Font("Tahoma", Font.BOLD, 11)); //$NON-NLS-1$
 		comboBox.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JComboBox cb = (JComboBox) e.getSource();
 				String type = (String) cb.getSelectedItem();
-				if (type == Messages.getString("JMsgReader.typeSubject")) {  //$NON-NLS-1$
+				if (type == Messages.getString("JMsgReader.typeSubject")) { //$NON-NLS-1$
 					setType(MailMessages.SearchType.SUBJECT);
 				}
-				if (type == Messages.getString("JMsgReader.typePerson")) {  //$NON-NLS-1$
+				if (type == Messages.getString("JMsgReader.typePerson")) { //$NON-NLS-1$
 					setType(MailMessages.SearchType.PERSON);
 				}
-				if (type == Messages.getString("JMsgReader.typeText")) {  //$NON-NLS-1$
+				if (type == Messages.getString("JMsgReader.typeText")) { //$NON-NLS-1$
 					setType(MailMessages.SearchType.CONTENT);
 				}
-				if (type == Messages.getString("JMsgReader.typeSenderOnly")) {  //$NON-NLS-1$
+				if (type == Messages.getString("JMsgReader.typeSenderOnly")) { //$NON-NLS-1$
 					setType(MailMessages.SearchType.SENDER_ONLY);
 				}
-				if (type == Messages.getString("JMsgReader.typeReceiverOnly")) {  //$NON-NLS-1$
+				if (type == Messages.getString("JMsgReader.typeReceiverOnly")) { //$NON-NLS-1$
 					setType(MailMessages.SearchType.RECEIVER_ONLY);
 				}
-				if (!type.equals("")) {  //$NON-NLS-1$
+				if (!type.equals("")) { //$NON-NLS-1$
 					RefreshView(textField.getText());
 				} else {
 					switch (getType()) {
 						case SUBJECT:
-							cb.setSelectedItem(Messages.getString("JMsgReader.typeSubject"));  //$NON-NLS-1$
+							cb.setSelectedItem(Messages.getString("JMsgReader.typeSubject")); //$NON-NLS-1$
 							break;
 						case PERSON:
-							cb.setSelectedItem(Messages.getString("JMsgReader.typePerson"));  //$NON-NLS-1$
+							cb.setSelectedItem(Messages.getString("JMsgReader.typePerson")); //$NON-NLS-1$
 							break;
 						case CONTENT:
-							cb.setSelectedItem(Messages.getString("JMsgReader.typeText"));  //$NON-NLS-1$
+							cb.setSelectedItem(Messages.getString("JMsgReader.typeText")); //$NON-NLS-1$
 							break;
 						case SENDER_ONLY:
-							cb.setSelectedItem(Messages.getString("JMsgReader.typeSenderOnly"));  //$NON-NLS-1$
+							cb.setSelectedItem(Messages.getString("JMsgReader.typeSenderOnly")); //$NON-NLS-1$
 							break;
 						case RECEIVER_ONLY:
-							cb.setSelectedItem(Messages.getString("JMsgReader.typeReceiverOnly"));  //$NON-NLS-1$
+							cb.setSelectedItem(Messages.getString("JMsgReader.typeReceiverOnly")); //$NON-NLS-1$
 							break;
 					}
 				}
 			}
 		});
-		comboBox.setModel(new DefaultComboBoxModel(new String[] { Messages.getString("JMsgReader.typeSubject"), Messages.getString("JMsgReader.typePerson"), Messages.getString("JMsgReader.typeText"), Messages.getString("JMsgReader.27"), Messages.getString("JMsgReader.typeSenderOnly"), Messages.getString("JMsgReader.typeReceiverOnly") })); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
+		comboBox.setModel(new DefaultComboBoxModel(new String[] { Messages.getString("JMsgReader.typeSubject"), Messages.getString("JMsgReader.typePerson"), Messages.getString("JMsgReader.typeText"), "", Messages.getString("JMsgReader.typeSenderOnly"), Messages.getString("JMsgReader.typeReceiverOnly") })); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
 		frmMsgCrawler.getContentPane().add(comboBox);
 
-		JLabel lblSuchenIn = new JLabel(Messages.getString("JMsgReader.lblSearchIn"));  //$NON-NLS-1$
+		JLabel lblSuchenIn = new JLabel(Messages.getString("JMsgReader.lblSearchIn")); //$NON-NLS-1$
 		springLayout.putConstraint(SpringLayout.NORTH, comboBox, 7, SpringLayout.SOUTH, lblSuchenIn);
 		springLayout.putConstraint(SpringLayout.EAST, lblSuchenIn, 0, SpringLayout.EAST, comboBox);
 		springLayout.putConstraint(SpringLayout.NORTH, lblSuchenIn, 0, SpringLayout.NORTH, lblSuchtext);
 		springLayout.putConstraint(SpringLayout.WEST, lblSuchenIn, 0, SpringLayout.WEST, comboBox);
 		springLayout.putConstraint(SpringLayout.SOUTH, lblSuchenIn, 26, SpringLayout.NORTH, frmMsgCrawler.getContentPane());
-		lblSuchenIn.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblSuchenIn.setFont(new Font("Tahoma", Font.BOLD, 11)); //$NON-NLS-1$
 		frmMsgCrawler.getContentPane().add(lblSuchenIn);
 
 		splitPane = new JSplitPane();
@@ -333,8 +332,8 @@ public class JMsgReader {
 
 		editorPane = new JEditorPane();
 		editorPane.setEditable(false);
-		editorPane.setContentType("text/html");  //$NON-NLS-1$
-		editorPane.setFont(new Font("Tahoma", Font.PLAIN, 14));  //$NON-NLS-1$
+		editorPane.setContentType("text/html"); //$NON-NLS-1$
+		editorPane.setFont(new Font("Tahoma", Font.PLAIN, 14)); //$NON-NLS-1$
 		scrollPane_1.setViewportView(editorPane);
 		splitPane.setDividerLocation(550);
 
@@ -343,7 +342,7 @@ public class JMsgReader {
 		springLayout.putConstraint(SpringLayout.WEST, chckbxZeigeDateienIn, 10, SpringLayout.WEST, frmMsgCrawler.getContentPane());
 		chckbxZeigeDateienIn.setMnemonic('D');
 		springLayout.putConstraint(SpringLayout.NORTH, splitPane, 6, SpringLayout.SOUTH, chckbxZeigeDateienIn);
-		chckbxZeigeDateienIn.setFont(new Font("Tahoma", Font.BOLD, 11));  //$NON-NLS-1$
+		chckbxZeigeDateienIn.setFont(new Font("Tahoma", Font.BOLD, 11)); //$NON-NLS-1$
 		chckbxZeigeDateienIn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -360,7 +359,7 @@ public class JMsgReader {
 		chckbxZeigeCcsUnd = new JCheckBox(Messages.getString("JMsgReader.lblShowCCbCC")); //$NON-NLS-1$
 		springLayout.putConstraint(SpringLayout.NORTH, chckbxZeigeCcsUnd, 6, SpringLayout.SOUTH, textField);
 		chckbxZeigeCcsUnd.setMnemonic('C');
-		chckbxZeigeCcsUnd.setFont(new Font("Tahoma", Font.BOLD, 11));  //$NON-NLS-1$
+		chckbxZeigeCcsUnd.setFont(new Font("Tahoma", Font.BOLD, 11)); //$NON-NLS-1$
 		chckbxZeigeCcsUnd.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -375,7 +374,7 @@ public class JMsgReader {
 		springLayout.putConstraint(SpringLayout.WEST, chckbxZeigeCcsUnd, 6, SpringLayout.EAST, chckbxZeigeDateienIn);
 		frmMsgCrawler.getContentPane().add(chckbxZeigeCcsUnd);
 
-		JButton btnHilfe = new JButton(Messages.getString("JMsgReader.dlgHelpCaption"));
+		JButton btnHilfe = new JButton(Messages.getString("JMsgReader.dlgHelpCaption")); //$NON-NLS-1$
 		springLayout.putConstraint(SpringLayout.SOUTH, comboBox, -6, SpringLayout.NORTH, btnHilfe);
 		btnHilfe.setIcon(new ImageIcon(JMsgReader.class.getResource("/net/goldenbogen/jmsgreader/help.png"))); //$NON-NLS-1$
 		springLayout.putConstraint(SpringLayout.NORTH, btnHilfe, 66, SpringLayout.NORTH, frmMsgCrawler.getContentPane());
@@ -399,7 +398,7 @@ public class JMsgReader {
 		springLayout.putConstraint(SpringLayout.SOUTH, lblInfo, -9, SpringLayout.NORTH, splitPane);
 		springLayout.putConstraint(SpringLayout.EAST, textField, 0, SpringLayout.EAST, lblInfo);
 		lblInfo.setForeground(SystemColor.textHighlight);
-		lblInfo.setFont(new Font("Tahoma", Font.BOLD, 14));  //$NON-NLS-1$
+		lblInfo.setFont(new Font("Tahoma", Font.BOLD, 14)); //$NON-NLS-1$
 		frmMsgCrawler.getContentPane().add(lblInfo);
 
 		lblWork = new JLabel();
@@ -408,7 +407,7 @@ public class JMsgReader {
 		springLayout.putConstraint(SpringLayout.SOUTH, lblWork, -6, SpringLayout.NORTH, progressBar);
 		frmMsgCrawler.getContentPane().add(lblWork);
 
-		btnOptionen = new JButton(Messages.getString("JMsgReader.lblSettings"));  //$NON-NLS-1$
+		btnOptionen = new JButton(Messages.getString("JMsgReader.lblSettings")); //$NON-NLS-1$
 		springLayout.putConstraint(SpringLayout.EAST, lblInfo, -6, SpringLayout.WEST, btnOptionen);
 		springLayout.putConstraint(SpringLayout.NORTH, btnOptionen, 0, SpringLayout.NORTH, btnHilfe);
 		springLayout.putConstraint(SpringLayout.EAST, btnOptionen, -6, SpringLayout.WEST, btnHilfe);
@@ -423,7 +422,7 @@ public class JMsgReader {
 	}
 
 	private void RefreshView(String SearchText) {
-		lblWork.setText(Messages.getString("JMsgReader.lblRendering"));  //$NON-NLS-1$
+		lblWork.setText(Messages.getString("JMsgReader.lblRendering")); //$NON-NLS-1$
 		progressBar.setValue(0);
 		if (!path.isEmpty()) {
 			Mails.searchMails(SearchText, getType(), progressBar);

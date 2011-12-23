@@ -17,7 +17,7 @@ import net.goldenbogen.jmsgreader.JMsgReader;
  */
 public class UserSettings {
 
-	private static Preferences	prefs	= Preferences.userRoot().node(JMsgReader.class.getName().toLowerCase().substring(0, JMsgReader.class.getName().toLowerCase().lastIndexOf(".")).replace(".", "/"));
+	private static Preferences	prefs	= Preferences.userRoot().node(JMsgReader.class.getName().toLowerCase().substring(0, JMsgReader.class.getName().toLowerCase().lastIndexOf(".")).replace(".", "/"));	//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
 	private static boolean		manualSearch;
 	private static boolean		enableCaching;
@@ -30,7 +30,7 @@ public class UserSettings {
 	 */
 	public static boolean isManualSearch() {
 		int tmp = 0;
-		tmp = prefs.getInt(new String("ManualSearch").toLowerCase(), tmp);
+		tmp = prefs.getInt(new String("ManualSearch").toLowerCase(), tmp); //$NON-NLS-1$
 		if (tmp == 1) {
 			manualSearch = true;
 		} else {
@@ -51,19 +51,19 @@ public class UserSettings {
 		if (ManualSearch) {
 			tmp = 1;
 		}
-		prefs.putInt(new String("ManualSearch").toLowerCase(), tmp);
+		prefs.putInt(new String("ManualSearch").toLowerCase(), tmp); //$NON-NLS-1$
 		manualSearch = ManualSearch;
 	}
 
 	/**
 	 * @author Goldenbogen, Pierre
-	 * Created: 21.12.2011 16:38:51
-	 *
+	 *         Created: 21.12.2011 16:38:51
+	 * 
 	 * @return the enableCaching
 	 */
 	public static boolean isEnableCaching() {
 		int tmp = 0;
-		tmp = prefs.getInt(new String("EnableCaching").toLowerCase(), tmp);
+		tmp = prefs.getInt(new String("EnableCaching").toLowerCase(), tmp); //$NON-NLS-1$
 		if (tmp == 1) {
 			enableCaching = true;
 		} else {
@@ -74,16 +74,17 @@ public class UserSettings {
 
 	/**
 	 * @author Goldenbogen, Pierre
-	 * Created: 21.12.2011 16:38:51
-	 *
-	 * @param enableCaching the enableCaching to set
+	 *         Created: 21.12.2011 16:38:51
+	 * 
+	 * @param enableCaching
+	 *            the enableCaching to set
 	 */
 	public static void setEnableCaching(boolean EnableCaching) {
 		int tmp = 0;
 		if (EnableCaching) {
 			tmp = 1;
 		}
-		prefs.putInt(new String("enableCaching").toLowerCase(), tmp);
+		prefs.putInt(new String("EnableCaching").toLowerCase(), tmp); //$NON-NLS-1$
 		enableCaching = EnableCaching;
 	}
 

@@ -112,7 +112,7 @@ public class Settings extends JDialog {
 				dispose();
 			}
 		});
-		
+
 		okButton.setMnemonic('O');
 		okButton.setActionCommand("OK"); //$NON-NLS-1$
 		buttonPane.add(okButton);
@@ -124,7 +124,7 @@ public class Settings extends JDialog {
 				dispose();
 			}
 		});
-		
+
 		cancelButton.setMnemonic('b');
 		cancelButton.setActionCommand("Cancel"); //$NON-NLS-1$
 		buttonPane.add(cancelButton);

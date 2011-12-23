@@ -18,7 +18,6 @@ import javax.swing.border.TitledBorder;
 import net.goldenbogen.jmsgreader.JMsgReader;
 import net.goldenbogen.jmsgreader.Messages;
 
-
 public class AdvancedCellRenderer extends DefaultListCellRenderer {
 
 	/**
@@ -68,13 +67,13 @@ public class AdvancedCellRenderer extends DefaultListCellRenderer {
 			JPanel FromTo = new JPanel();
 			FromTo.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
 
-			JLabel lblfrom = new JLabel("<html><font color=maroon><b>"+Messages.getString("JMsgReader.lblFrom")+":</b></font> " + ((Message) value).getColorizedSender() + "<html>"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+			JLabel lblfrom = new JLabel("<html><font color=maroon><b>" + Messages.getString("JMsgReader.lblFrom") + ":</b></font> " + ((Message) value).getColorizedSender() + "<html>"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 			lblfrom.setFont(new Font("Tahoma", Font.PLAIN, 14)); //$NON-NLS-1$
 			lblfrom.setPreferredSize(new Dimension(300, 17));
 			lblfrom.setMaximumSize(new Dimension(300, 17));
 			FromTo.add(lblfrom);
 
-			JLabel lblto = new JLabel("<html><font color=green><b>"+Messages.getString("JMsgReader.lblTo")+":</b></font> " + ((Message) value).getColorizedReceiver() + "<html>"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+			JLabel lblto = new JLabel("<html><font color=green><b>" + Messages.getString("JMsgReader.lblTo") + ":</b></font> " + ((Message) value).getColorizedReceiver() + "<html>"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 			lblto.setFont(new Font("Tahoma", Font.PLAIN, 14)); //$NON-NLS-1$
 			FromTo.add(lblto);
 
@@ -91,7 +90,7 @@ public class AdvancedCellRenderer extends DefaultListCellRenderer {
 					lblccspacer.setMaximumSize(new Dimension(300, 17));
 					CC.add(lblccspacer);
 
-					JLabel lblcc = new JLabel("<html><font color=green><b>"+Messages.getString("JMsgReader.lblCC")+":</b></font> " + ((Message) value).getColorizedCC() + "<html>"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+					JLabel lblcc = new JLabel("<html><font color=green><b>" + Messages.getString("JMsgReader.lblCC") + ":</b></font> " + ((Message) value).getColorizedCC() + "<html>"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 					lblcc.setFont(new Font("Tahoma", Font.PLAIN, 14)); //$NON-NLS-1$
 					CC.add(lblcc);
 
@@ -110,7 +109,7 @@ public class AdvancedCellRenderer extends DefaultListCellRenderer {
 					lblbccspacer.setMaximumSize(new Dimension(300, 17));
 					BCC.add(lblbccspacer);
 
-					JLabel lblbcc = new JLabel("<html><font color=green><b>"+Messages.getString("JMsgReader.lblBCC")+":</b></font> " + ((Message) value).getColorizedBCC() + "<html>"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+					JLabel lblbcc = new JLabel("<html><font color=green><b>" + Messages.getString("JMsgReader.lblBCC") + ":</b></font> " + ((Message) value).getColorizedBCC() + "<html>"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 					lblbcc.setFont(new Font("Tahoma", Font.PLAIN, 14)); //$NON-NLS-1$
 					BCC.add(lblbcc);
 
@@ -135,7 +134,7 @@ public class AdvancedCellRenderer extends DefaultListCellRenderer {
 				}
 			}
 
-			JLabel lblbetreff = new JLabel("<html><font color=#4B0082><b>"+Messages.getString("JMsgReader.lblSubject")+":</b></font> " + ((Message) value).getColorizedSubject() + "<html>"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+			JLabel lblbetreff = new JLabel("<html><font color=#4B0082><b>" + Messages.getString("JMsgReader.lblSubject") + ":</b></font> " + ((Message) value).getColorizedSubject() + "<html>"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 			lblbetreff.setFont(new Font("Tahoma", Font.PLAIN, 14)); //$NON-NLS-1$
 			mypanel.add(lblbetreff);
 
@@ -147,7 +146,7 @@ public class AdvancedCellRenderer extends DefaultListCellRenderer {
 					}
 					String files = stringBuffer.toString();
 					files = files.substring(0, files.lastIndexOf("-") - 2); //$NON-NLS-1$
-					JLabel lblAttachments = new JLabel("<html>"+Messages.getString("JMsgReader.lblAttachments")+": <font color=blue>" + files + "</font><html>"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+					JLabel lblAttachments = new JLabel("<html>" + Messages.getString("JMsgReader.lblAttachments") + ": <font color=blue>" + files + "</font><html>"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 					lblAttachments.setFont(new Font("Tahoma", Font.PLAIN, 14)); //$NON-NLS-1$
 					mypanel.add(lblAttachments);
 				}

@@ -11,8 +11,8 @@ import java.util.ResourceBundle;
 
 /**
  * @author Goldenbogen, Pierre
- * Created: 15.12.2011 13:17:49
- *
+ *         Created: 15.12.2011 13:17:49
+ * 
  */
 public class Messages {
 	private static final String			BUNDLE_NAME		= "net.goldenbogen.jmsgreader.messages";	//$NON-NLS-1$

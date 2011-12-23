@@ -91,7 +91,7 @@ public class MailMessages {
 		File root = new File(getSearchFolder());
 		try {
 			boolean recursive = true;
-			String[] extensions = { "msg" };
+			String[] extensions = { "msg" }; //$NON-NLS-1$
 			statusText.setText(Messages.getString("MailMessages.GettingFiles")); //$NON-NLS-1$
 			Collection<File> files = FileUtils.listFiles(root, extensions, recursive);
 			statusBar.setValue(0);
