@@ -50,7 +50,7 @@ public class FileAssociation {
 		try {
 			Process RegistryProcess = null;
 			int exitVal = -1;
-			RegistryProcess = Runtime.getRuntime().exec("REG ADD HKCR\\" + FileExtension + "\\ /ve /t REG_SZ /d semail /f"); //$NON-NLS-1$ //$NON-NLS-2$
+			RegistryProcess = Runtime.getRuntime().exec("REG ADD HKCR\\" + FileExtension + "\\ /ve /t REG_SZ /d jmsgreader /f"); //$NON-NLS-1$ //$NON-NLS-2$
 			exitVal = RegistryProcess.waitFor();
 			switch (exitVal) {
 				case 0:
@@ -61,7 +61,7 @@ public class FileAssociation {
 					break;
 			}
 			exitVal = -1;
-			RegistryProcess = Runtime.getRuntime().exec("REG ADD HKCR\\semail\\ /ve /t REG_SZ /d \"semail Datei\" /f"); //$NON-NLS-1$
+			RegistryProcess = Runtime.getRuntime().exec("REG ADD HKCR\\jmsgreader\\ /ve /t REG_SZ /d \"jmsgreader File\" /f"); //$NON-NLS-1$
 			exitVal = RegistryProcess.waitFor();
 			switch (exitVal) {
 				case 0:
@@ -72,7 +72,7 @@ public class FileAssociation {
 					break;
 			}
 			exitVal = -1;
-			RegistryProcess = Runtime.getRuntime().exec("REG ADD HKCR\\semail\\Shell\\Open\\Command /ve /t REG_SZ /d \"javaw -jar " + System.getProperty("user.dir") + "\\semail.jar \"\"\"%1\"\" /f"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			RegistryProcess = Runtime.getRuntime().exec("REG ADD HKCR\\jmsgreader\\Shell\\Open\\Command /ve /t REG_SZ /d \"javaw -jar " + System.getProperty("user.dir") + "\\jmsgreader.jar \"\"\"%1\"\" /f"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			exitVal = RegistryProcess.waitFor();
 			switch (exitVal) {
 				case 0:
