@@ -103,7 +103,7 @@ public class MailMessages {
 				String fileName = file.getAbsolutePath().substring(file.getAbsolutePath().lastIndexOf("\\") + 1, file.getAbsolutePath().lastIndexOf(".")) + ".cache"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
 				File cacheFile = new File(getSearchFolder() + "\\" + getCacheFolderPath() + "\\" + fileName); //$NON-NLS-1$ //$NON-NLS-2$
-				if (cacheFile.exists() && cacheFile.lastModified() > cal.getTimeInMillis()) {
+				if (cacheFile.exists() && (cacheFile.lastModified() > cal.getTimeInMillis())) {
 					statusText.setText(Messages.getString("MailMessages.DataFromCache") + cacheFile.getName()); //$NON-NLS-1$
 					FileInputStream fis = null;
 					ObjectInputStream in = null;

@@ -14,6 +14,7 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
@@ -21,9 +22,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
 import javax.swing.UIManager;
+import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
-
-import javax.swing.ImageIcon;
 
 import net.goldenbogen.jmsgreader.core.UserSettings;
 
@@ -51,7 +51,7 @@ public class Settings extends JDialog {
 		}
 		try {
 			Settings dialog = new Settings();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -65,7 +65,7 @@ public class Settings extends JDialog {
 		setResizable(false);
 		setModalityType(ModalityType.APPLICATION_MODAL);
 		setAlwaysOnTop(true);
-		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Settings.class.getResource("/net/goldenbogen/jmsgreader/setting_tools.png"))); //$NON-NLS-1$
 		setModal(true);
 		setTitle(Messages.getString("JMsgReader.AppName") + " - " + Messages.getString("JMsgReader.lblSettings")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
@@ -76,58 +76,60 @@ public class Settings extends JDialog {
 		SpringLayout sl_contentPanel = new SpringLayout();
 		contentPanel.setLayout(sl_contentPanel);
 
-		final JCheckBox chckbxSucheErstMit = new JCheckBox(Messages.getString("Settings.lblOnlySearchAfterReturnWasHit")); //$NON-NLS-1$
-		chckbxSucheErstMit.setMnemonic('S');
-		sl_contentPanel.putConstraint(SpringLayout.NORTH, chckbxSucheErstMit, 10, SpringLayout.NORTH, contentPanel);
-		sl_contentPanel.putConstraint(SpringLayout.WEST, chckbxSucheErstMit, 10, SpringLayout.WEST, contentPanel);
-		sl_contentPanel.putConstraint(SpringLayout.EAST, chckbxSucheErstMit, -7, SpringLayout.EAST, contentPanel);
-		chckbxSucheErstMit.setSelected(UserSettings.isManualSearch());
-		contentPanel.add(chckbxSucheErstMit);
+		final JCheckBox chbxSearchAfterRetrunOnly = new JCheckBox(Messages.getString("Settings.lblOnlySearchAfterReturnWasHit")); //$NON-NLS-1$
+		chbxSearchAfterRetrunOnly.setMnemonic('S');
+		sl_contentPanel.putConstraint(SpringLayout.NORTH, chbxSearchAfterRetrunOnly, 10, SpringLayout.NORTH, contentPanel);
+		sl_contentPanel.putConstraint(SpringLayout.WEST, chbxSearchAfterRetrunOnly, 10, SpringLayout.WEST, contentPanel);
+		sl_contentPanel.putConstraint(SpringLayout.EAST, chbxSearchAfterRetrunOnly, -7, SpringLayout.EAST, contentPanel);
+		chbxSearchAfterRetrunOnly.setSelected(UserSettings.isManualSearch());
+		contentPanel.add(chbxSearchAfterRetrunOnly);
 
-		JLabel lblNewLabel = new JLabel(Messages.getString("Settings.lblInfoForlblOnlySearchAfterReturnWasHit")); //$NON-NLS-1$
-		sl_contentPanel.putConstraint(SpringLayout.NORTH, lblNewLabel, 6, SpringLayout.SOUTH, chckbxSucheErstMit);
-		sl_contentPanel.putConstraint(SpringLayout.EAST, lblNewLabel, -10, SpringLayout.EAST, chckbxSucheErstMit);
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 11)); //$NON-NLS-1$
-		lblNewLabel.setForeground(new Color(51, 153, 255));
-		contentPanel.add(lblNewLabel);
+		JLabel lblSearchAfterReturnInfoText = new JLabel(Messages.getString("Settings.lblInfoForlblOnlySearchAfterReturnWasHit")); //$NON-NLS-1$
+		sl_contentPanel.putConstraint(SpringLayout.NORTH, lblSearchAfterReturnInfoText, 6, SpringLayout.SOUTH, chbxSearchAfterRetrunOnly);
+		sl_contentPanel.putConstraint(SpringLayout.EAST, lblSearchAfterReturnInfoText, -10, SpringLayout.EAST, chbxSearchAfterRetrunOnly);
+		lblSearchAfterReturnInfoText.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 11)); //$NON-NLS-1$
+		lblSearchAfterReturnInfoText.setForeground(new Color(51, 153, 255));
+		contentPanel.add(lblSearchAfterReturnInfoText);
 
-		final JCheckBox chckbxEnableCaching = new JCheckBox(Messages.getString("Settings.lblEnableCaching")); //$NON-NLS-1$
-		sl_contentPanel.putConstraint(SpringLayout.NORTH, chckbxEnableCaching, 6, SpringLayout.SOUTH, lblNewLabel);
-		sl_contentPanel.putConstraint(SpringLayout.WEST, chckbxEnableCaching, 0, SpringLayout.WEST, chckbxSucheErstMit);
-		sl_contentPanel.putConstraint(SpringLayout.EAST, chckbxEnableCaching, 0, SpringLayout.EAST, chckbxSucheErstMit);
-		chckbxEnableCaching.setSelected(UserSettings.isEnableCaching());
-		chckbxEnableCaching.setMnemonic('S');
-		contentPanel.add(chckbxEnableCaching);
+		final JCheckBox chbxEnableCaching = new JCheckBox(Messages.getString("Settings.lblEnableCaching")); //$NON-NLS-1$
+		sl_contentPanel.putConstraint(SpringLayout.NORTH, chbxEnableCaching, 6, SpringLayout.SOUTH, lblSearchAfterReturnInfoText);
+		sl_contentPanel.putConstraint(SpringLayout.WEST, chbxEnableCaching, 0, SpringLayout.WEST, chbxSearchAfterRetrunOnly);
+		sl_contentPanel.putConstraint(SpringLayout.EAST, chbxEnableCaching, 0, SpringLayout.EAST, chbxSearchAfterRetrunOnly);
+		chbxEnableCaching.setSelected(UserSettings.isEnableCaching());
+		chbxEnableCaching.setMnemonic('S');
+		contentPanel.add(chbxEnableCaching);
 
 		JPanel buttonPane = new JPanel();
 		buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		getContentPane().add(buttonPane, BorderLayout.SOUTH);
 
-		JButton okButton = new JButton(Messages.getString("Settings.btnOk")); //$NON-NLS-1$
-		okButton.setIcon(new ImageIcon(Settings.class.getResource("/net/goldenbogen/jmsgreader/accept.png"))); //$NON-NLS-1$
-		okButton.addActionListener(new ActionListener() {
+		JButton btnOk = new JButton(Messages.getString("Settings.btnOk")); //$NON-NLS-1$
+		btnOk.setIcon(new ImageIcon(Settings.class.getResource("/net/goldenbogen/jmsgreader/accept.png"))); //$NON-NLS-1$
+		btnOk.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
-				UserSettings.setManualSearch(chckbxSucheErstMit.isSelected());
-				UserSettings.setEnableCaching(chckbxEnableCaching.isSelected());
+				UserSettings.setManualSearch(chbxSearchAfterRetrunOnly.isSelected());
+				UserSettings.setEnableCaching(chbxEnableCaching.isSelected());
 				dispose();
 			}
 		});
 
-		okButton.setMnemonic('O');
-		okButton.setActionCommand("OK"); //$NON-NLS-1$
-		buttonPane.add(okButton);
-		getRootPane().setDefaultButton(okButton);
-		JButton cancelButton = new JButton(Messages.getString("Settings.btnCancel")); //$NON-NLS-1$
-		cancelButton.setIcon(new ImageIcon(Settings.class.getResource("/net/goldenbogen/jmsgreader/cancel.png"))); //$NON-NLS-1$
-		cancelButton.addActionListener(new ActionListener() {
+		btnOk.setMnemonic('O');
+		btnOk.setActionCommand("OK"); //$NON-NLS-1$
+		buttonPane.add(btnOk);
+		getRootPane().setDefaultButton(btnOk);
+		JButton btnCancel = new JButton(Messages.getString("Settings.btnCancel")); //$NON-NLS-1$
+		btnCancel.setIcon(new ImageIcon(Settings.class.getResource("/net/goldenbogen/jmsgreader/cancel.png"))); //$NON-NLS-1$
+		btnCancel.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				dispose();
 			}
 		});
 
-		cancelButton.setMnemonic('b');
-		cancelButton.setActionCommand("Cancel"); //$NON-NLS-1$
-		buttonPane.add(cancelButton);
+		btnCancel.setMnemonic('b');
+		btnCancel.setActionCommand("Cancel"); //$NON-NLS-1$
+		buttonPane.add(btnCancel);
 
 	}
 }
