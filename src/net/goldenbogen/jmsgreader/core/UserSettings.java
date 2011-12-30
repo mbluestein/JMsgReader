@@ -6,6 +6,7 @@
  */
 package net.goldenbogen.jmsgreader.core;
 
+import java.util.Locale;
 import java.util.prefs.Preferences;
 
 import net.goldenbogen.jmsgreader.JMsgReader;
@@ -17,10 +18,11 @@ import net.goldenbogen.jmsgreader.JMsgReader;
  */
 public class UserSettings {
 
-	private static Preferences	prefs	= Preferences.userRoot().node(JMsgReader.class.getName().toLowerCase().substring(0, JMsgReader.class.getName().toLowerCase().lastIndexOf(".")).replace(".", "/"));	//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+	private static Preferences	prefs			= Preferences.userRoot().node(JMsgReader.class.getName().toLowerCase().substring(0, JMsgReader.class.getName().toLowerCase().lastIndexOf(".")).replace(".", "/"));	//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
 	private static boolean		manualSearch;
 	private static boolean		enableCaching;
+	private static Locale		currentLocale	= Locale.getDefault();
 
 	/**
 	 * @author Goldenbogen, Pierre
@@ -86,6 +88,27 @@ public class UserSettings {
 		}
 		prefs.putInt(new String("EnableCaching").toLowerCase(), tmp); //$NON-NLS-1$
 		enableCaching = EnableCaching;
+	}
+
+	/**
+	 * @author Goldenbogen, Pierre
+	 *         Created: 30.12.2011 13:56:37
+	 * 
+	 * @return the currentLocalte
+	 */
+	public static Locale getCurrentLocale() {
+		return currentLocale;
+	}
+
+	/**
+	 * @author Goldenbogen, Pierre
+	 *         Created: 30.12.2011 13:56:37
+	 * 
+	 * @param currentLocalte
+	 *            the currentLocalte to set
+	 */
+	public static void setCurrentLocale(Locale currentLocale) {
+		UserSettings.currentLocale = currentLocale;
 	}
 
 }
