@@ -2,14 +2,14 @@
 #
 #  SHORT DESCRIPTION
 
-This small piece of software loads all .msg files inside a path into memory and 
+This small piece of software loads all .msg and/or .eml files inside a path into memory and 
 makes their content searchable.
 
 ###############################################################################
 #
 #  USAGE
 
-To use the program, a path where .msg files are stored must be passed as a 
+To use the program, a path where .msg and/or .eml files are stored must be passed as a 
 parameter.
 
 This could be as follows:
@@ -39,3 +39,5 @@ You need the following libraries to get this thing up and running.
     http://poi.apache.org/
 - Apache IO - Commons IO is a library of utilities to assist with developing IO functionality.
     http://commons.apache.org/io/
+- Oracle JAVAMAIL - The JavaMail API provides a platform-independent and protocol-independent framework to build mail and messaging applications
+    http://www.oracle.com/technetwork/java/javamail/index.html

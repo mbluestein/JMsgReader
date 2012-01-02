@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
@@ -19,7 +20,12 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.Properties;
 
+import javax.mail.Address;
+import javax.mail.Message.RecipientType;
+import javax.mail.Session;
+import javax.mail.internet.MimeMessage;
 import javax.swing.JLabel;
 import javax.swing.JProgressBar;
 
@@ -91,7 +97,7 @@ public class MailMessages {
 		File root = new File(getSearchFolder());
 		try {
 			boolean recursive = true;
-			String[] extensions = { "msg" }; //$NON-NLS-1$
+			String[] extensions = { "msg", "eml" }; //$NON-NLS-1$ //$NON-NLS-2$
 			statusText.setText(Messages.getString("MailMessages.GettingFiles")); //$NON-NLS-1$
 			Collection<File> files = FileUtils.listFiles(root, extensions, recursive);
 			statusBar.setValue(0);
@@ -117,77 +123,157 @@ public class MailMessages {
 
 					statusText.setText(Messages.getString("MailMessages.DataFromMsgFiles") + file.getName()); //$NON-NLS-1$
 
-					MAPIMessage msg = new MAPIMessage(file.getAbsolutePath());
-
-					// Get Date
 					Date date = new Date(file.lastModified());
-					try {
-						date = msg.getMessageDate().getTime();
-					} catch (Exception e) {
-						System.err.println("Error: " + file.getName() + " no messageDATE-CHUNK"); //$NON-NLS-1$ //$NON-NLS-2$
-					}
-
-					// Get To
 					String displayTO = ""; //$NON-NLS-1$
-					try {
-						displayTO = msg.getDisplayTo();
-					} catch (Exception e) {
-						System.err.println("Error: " + file.getName() + " no messageTO-CHUNK"); //$NON-NLS-1$ //$NON-NLS-2$
-					}
-
-					// Get From
 					String displayFROM = ""; //$NON-NLS-1$
-					try {
-						displayFROM = msg.getDisplayFrom();
-					} catch (Exception e) {
-						System.err.println("Error: " + file.getName() + " no messageFROM-CHUNK"); //$NON-NLS-1$ //$NON-NLS-2$
-					}
-
-					// Get CC
 					String displayCC = ""; //$NON-NLS-1$
-					try {
-						displayCC = msg.getDisplayCC();
-					} catch (Exception e) {
-						System.err.println("Error: " + file.getName() + " no messageCC-CHUNK"); //$NON-NLS-1$ //$NON-NLS-2$
-					}
-
-					// Get BCC
 					String displayBCC = ""; //$NON-NLS-1$
-					try {
-						displayBCC = msg.getDisplayBCC();
-					} catch (Exception e) {
-						System.err.println("Error: " + file.getName() + " no messageBCC-CHUNK"); //$NON-NLS-1$ //$NON-NLS-2$
-					}
-
-					// Get Subject
 					String displaySUBJECT = ""; //$NON-NLS-1$
-					try {
-						displaySUBJECT = msg.getSubject();
-					} catch (Exception e) {
-						System.err.println("Error: " + file.getName() + " no messageSUBJECT-CHUNK"); //$NON-NLS-1$ //$NON-NLS-2$
-					}
-
-					// Get TextBody
 					String textBODY = ""; //$NON-NLS-1$
-					try {
-						textBODY = msg.getTextBody();
-					} catch (Exception e) {
-						textBODY = Messages.getString("MailMessages.AlternativeMsgText"); //$NON-NLS-1$
-						System.err.println("Error: " + file.getName() + " no messageTEXTBODY-CHUNK"); //$NON-NLS-1$ //$NON-NLS-2$
-					}
-
-					// Get Attachments
-					AttachmentChunks[] attachments;
 					ArrayList<String> attachmentFiles = new ArrayList<String>();
-					try {
-						attachments = msg.getAttachmentFiles();
-						if (attachments.length > 0) {
-							for (AttachmentChunks attachment : attachments) {
-								attachmentFiles.add(attachment.attachLongFileName.toString());
-							}
+
+					if (file.getAbsolutePath().substring(file.getAbsolutePath().lastIndexOf(".") + 1, file.getAbsolutePath().length()).toLowerCase().equals("msg")) { //$NON-NLS-1$ //$NON-NLS-2$
+
+						MAPIMessage msg = new MAPIMessage(file.getAbsolutePath());
+
+						// Get Date
+						try {
+							date = msg.getMessageDate().getTime();
+						} catch (Exception e) {
+							System.err.println("Error: " + file.getName() + " no messageDATE-CHUNK"); //$NON-NLS-1$ //$NON-NLS-2$
 						}
-					} catch (Exception e) {
-						System.err.println("Error: " + file.getName() + " no messageATTACHMENTS-CHUNK"); //$NON-NLS-1$ //$NON-NLS-2$
+
+						// Get To
+						try {
+							displayTO = msg.getDisplayTo();
+						} catch (Exception e) {
+							System.err.println("Error: " + file.getName() + " no messageTO-CHUNK"); //$NON-NLS-1$ //$NON-NLS-2$
+						}
+
+						// Get From
+						try {
+							displayFROM = msg.getDisplayFrom();
+						} catch (Exception e) {
+							System.err.println("Error: " + file.getName() + " no messageFROM-CHUNK"); //$NON-NLS-1$ //$NON-NLS-2$
+						}
+
+						// Get CC
+						try {
+							displayCC = msg.getDisplayCC();
+						} catch (Exception e) {
+							System.err.println("Error: " + file.getName() + " no messageCC-CHUNK"); //$NON-NLS-1$ //$NON-NLS-2$
+						}
+
+						// Get BCC
+						try {
+							displayBCC = msg.getDisplayBCC();
+						} catch (Exception e) {
+							System.err.println("Error: " + file.getName() + " no messageBCC-CHUNK"); //$NON-NLS-1$ //$NON-NLS-2$
+						}
+
+						// Get Subject
+						try {
+							displaySUBJECT = msg.getSubject();
+						} catch (Exception e) {
+							System.err.println("Error: " + file.getName() + " no messageSUBJECT-CHUNK"); //$NON-NLS-1$ //$NON-NLS-2$
+						}
+
+						// Get TextBody
+						try {
+							textBODY = msg.getTextBody();
+						} catch (Exception e) {
+							textBODY = Messages.getString("MailMessages.AlternativeMsgText"); //$NON-NLS-1$
+							System.err.println("Error: " + file.getName() + " no messageTEXTBODY-CHUNK"); //$NON-NLS-1$ //$NON-NLS-2$
+						}
+
+						// Get Attachments
+						AttachmentChunks[] attachments;
+						try {
+							attachments = msg.getAttachmentFiles();
+							if (attachments.length > 0) {
+								for (AttachmentChunks attachment : attachments) {
+									attachmentFiles.add(attachment.attachLongFileName.toString());
+								}
+							}
+						} catch (Exception e) {
+							System.err.println("Error: " + file.getName() + " no messageATTACHMENTS-CHUNK"); //$NON-NLS-1$ //$NON-NLS-2$
+						}
+
+					} else {
+						Properties props = System.getProperties();
+						props.put("mail.host", "smtp.dummydomain.com"); //$NON-NLS-1$ //$NON-NLS-2$
+						props.put("mail.transport.protocol", "smtp"); //$NON-NLS-1$ //$NON-NLS-2$
+
+						Session mailSession = Session.getDefaultInstance(props, null);
+						InputStream source = new FileInputStream(file.getAbsolutePath());
+						MimeMessage msg = new MimeMessage(mailSession, source);
+
+						// Get Date
+						try {
+							date = new Date(msg.getReceivedDate().getTime());
+						} catch (Exception e) {
+							System.err.println("Error: " + file.getName() + " no messageDATE-CHUNK"); //$NON-NLS-1$ //$NON-NLS-2$
+						}
+
+						// Get To
+						try {
+							Address[] reciptients = msg.getRecipients(RecipientType.TO);
+							for (int i = 0; i < reciptients.length; i++) {
+								displayTO = displayTO + reciptients[i] + ", "; //$NON-NLS-1$
+							}
+							displayTO = displayTO.substring(0, displayTO.lastIndexOf(",")); //$NON-NLS-1$
+						} catch (Exception e) {
+							System.err.println("Error: " + file.getName() + " no messageTO-CHUNK"); //$NON-NLS-1$ //$NON-NLS-2$
+						}
+
+						// Get From
+						try {
+							Address[] senders = msg.getFrom();
+							for (int i = 0; i < senders.length; i++) {
+								displayFROM = displayFROM + senders[i] + ", "; //$NON-NLS-1$
+							}
+							displayFROM = displayFROM.substring(0, displayFROM.lastIndexOf(",")); //$NON-NLS-1$
+						} catch (Exception e) {
+							System.err.println("Error: " + file.getName() + " no messageFROM-CHUNK"); //$NON-NLS-1$ //$NON-NLS-2$
+						}
+
+						// Get CC
+						try {
+							Address[] reciptients = msg.getRecipients(RecipientType.CC);
+							for (int i = 0; i < reciptients.length; i++) {
+								displayCC = displayCC + reciptients[i] + ", "; //$NON-NLS-1$
+							}
+							displayCC = displayCC.substring(0, displayCC.lastIndexOf(",")); //$NON-NLS-1$
+						} catch (Exception e) {
+							System.err.println("Error: " + file.getName() + " no messageCC-CHUNK"); //$NON-NLS-1$ //$NON-NLS-2$
+						}
+
+						// Get BCC
+						try {
+							Address[] reciptients = msg.getRecipients(RecipientType.BCC);
+							for (int i = 0; i < reciptients.length; i++) {
+								displayBCC = displayBCC + reciptients[i] + ", "; //$NON-NLS-1$
+							}
+							displayBCC = displayBCC.substring(0, displayBCC.lastIndexOf(",")); //$NON-NLS-1$
+						} catch (Exception e) {
+							System.err.println("Error: " + file.getName() + " no messageBCC-CHUNK"); //$NON-NLS-1$ //$NON-NLS-2$
+						}
+
+						// Get Subject
+						try {
+							displaySUBJECT = msg.getSubject();
+						} catch (Exception e) {
+							System.err.println("Error: " + file.getName() + " no messageSUBJECT-CHUNK"); //$NON-NLS-1$ //$NON-NLS-2$
+						}
+
+						// Get TextBody
+						try {
+							textBODY = msg.getContent().toString();
+						} catch (Exception e) {
+							textBODY = Messages.getString("MailMessages.AlternativeMsgText"); //$NON-NLS-1$
+							System.err.println("Error: " + file.getName() + " no messageTEXTBODY-CHUNK"); //$NON-NLS-1$ //$NON-NLS-2$
+						}
+
 					}
 
 					Message myMessage = new Message(file.getAbsolutePath(), date, displayTO, displayFROM, displayCC, displayBCC, displaySUBJECT, textBODY, attachmentFiles);
@@ -197,6 +283,7 @@ public class MailMessages {
 
 				}
 			}
+
 			initResults();
 		} catch (Exception e) {
 			e.printStackTrace();
